@@ -170,9 +170,28 @@ var Fsm = machina.Fsm.extend({
     }, function(localUrls) {
       if (localUrls && localUrls[0]) this.setLocalUrls(localUrls[0]);
     }.bind(this));
+    
     // Show the page.
     this.showMessage(null);
     this.app.show();
+    
+    var self = this;
+    FirebasePlugin.onMessageReceived(function(message) {
+      setTimeout(function(){
+        if (message.url != undefined)
+          self.app.executeScript({code: "window.location.assign('"+ LANDING_URL + message.url +"');"});
+      }, 500)
+
+      self.app.addEventListener('loadstop', function(){
+        if (message.payload != undefined) {
+          var payload = JSON.stringify( message.payload )
+          self.app.executeScript({code: "document.dispatchEvent(new CustomEvent('onNotify', {detail:  "+ payload +"}));"});
+        }
+      })
+
+      }, function(error) {
+        console.error(error);
+    });
   },
 
   onNavigate: function(e, cb) {
@@ -228,6 +247,9 @@ var Fsm = machina.Fsm.extend({
     }.bind(this)), false);
     this.app.addEventListener("beforeload",   wrapEventListener(this.handle.bind(this, "app.beforeload")), false);
     this.app.addEventListener("exit",         wrapEventListener(this.handle.bind(this, "app.exit")), false);
+    
+    this.app.addEventListener("onMessage",         wrapEventListener(this.handle.bind(this, "app.exit")), false);
+  
   },
 
   openSystemBrowser: function(url) {
@@ -326,4 +348,9 @@ var Fsm = machina.Fsm.extend({
     }
   }
 });
+
 var fsm = new Fsm();
+
+
+
+
