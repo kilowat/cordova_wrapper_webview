@@ -195,6 +195,7 @@ var Fsm = machina.Fsm.extend({
   },
 
   onNavigate: function(e, cb) {
+    
     if (e.url.match(/^app:\/\/mobile-scan\b/)) {
       // barcode scanner opened
       var params = parseQueryString(e.url) || {};
@@ -206,8 +207,9 @@ var Fsm = machina.Fsm.extend({
       cb(e.url);
     } else {
       // all other links are opened in the system web browser
-      this.openSystemBrowser(e.url);
+     // this.openSystemBrowser(e.url);
     }
+    
   },
 
   onBrowserBack: function() {
