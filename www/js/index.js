@@ -195,7 +195,6 @@ var Fsm = machina.Fsm.extend({
   },
 
   onNavigate: function(e, cb) {
-    
     if (e.url.match(/^app:\/\/mobile-scan\b/)) {
       // barcode scanner opened
       var params = parseQueryString(e.url) || {};
@@ -207,7 +206,7 @@ var Fsm = machina.Fsm.extend({
       cb(e.url);
     } else {
       // all other links are opened in the system web browser
-     // this.openSystemBrowser(e.url);
+      this.openSystemBrowser(e.url);
     }
     
   },
@@ -235,9 +234,20 @@ var Fsm = machina.Fsm.extend({
 
   openBrowser: function(url) {
     var _url = url || this.appLastUrl || LANDING_URL;
+ 
     this.app = cordova.InAppBrowser.open(_url, "_blank", "location=no,zoom=no,shouldPauseOnSuspend=yes,toolbar=no,hidden=yes,beforeload=yes");
     // Connect state-machine to inAppBrowser events.
     this.app.addEventListener("loadstart",    wrapEventListener(this.handle.bind(this, "app.loadstart")), false);
+   
+    // fix open external window
+    var self = this;
+    this.app.addEventListener("loadstart",    wrapEventListener(function(e) {
+      if (e && e.url != undefined && !self.isLocalUrl(e.url)) {
+        self.app.close();
+        self.openSystemBrowser(e.url);
+      }
+    }));
+
     this.app.addEventListener("loadstop",     wrapEventListener(this.handle.bind(this, "app.loadstop")), false);
     this.app.addEventListener("loaderror",    wrapEventListener(function(e) {
       if (window.cordova.platformId === 'ios' && e.code === -999) {
@@ -352,7 +362,4 @@ var Fsm = machina.Fsm.extend({
 });
 
 var fsm = new Fsm();
-
-
-
 
