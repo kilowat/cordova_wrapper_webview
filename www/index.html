@@ -17,8 +17,8 @@
     specific language governing permissions and limitations
     under the License.
 -->
-<html>
-    <head>
+<html data-basepath="/">
+    <head >
         <!--
         Customize this policy to fit your own app's needs. For more guidance, see:
             https://github.com/apache/cordova-plugin-whitelist/blob/master/README.md#content-security-policy
@@ -28,14 +28,16 @@
             * Disables use of inline scripts in order to mitigate risk of XSS vulnerabilities. To change this:
                 * Enable inline JS: add 'unsafe-inline' to default-src
         -->
-        <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *; img-src 'self' data: content:;">
+        <meta http-equiv="Content-Security-Policy" content="default-src *; style-src 'self' http://* 'unsafe-inline'; script-src 'self' http://* 'unsafe-inline' 'unsafe-eval'" />
         <meta name="format-detection" content="telephone=no">
         <meta name="msapplication-tap-highlight" content="no">
         <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
         <link rel="stylesheet" type="text/css" href="css/index.css">
+        <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
         <title>Example</title>
     </head>
     <body>
+        <div id="app"></div>
         <div class="app">
             <div class="event blink event-default" id="event-starting">Starting...</div>
             <div class="event blink" id="event-loading">Loading...</div>
@@ -51,6 +53,8 @@
         <script type="text/javascript" src="js/lodash.custom.js"></script>
         <script type="text/javascript" src="js/machina.js"></script>
         <script type="text/javascript" src="js/util.js"></script>
+        
         <script type="text/javascript" src="js/index.js"></script>
+        
     </body>
 </html>

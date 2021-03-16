@@ -360,6 +360,63 @@ var Fsm = machina.Fsm.extend({
     }
   }
 });
+    //var fsm = new Fsm();
+document.addEventListener("deviceready", function(){
+  //"/android_asset/www/index.html"
+  console.log(cordova.platformId);
+  if (cordova.platformId == "android") {
+    document.querySelector('html').dataset['basepath'] = "/android_asset/www/index.html";
+  } else if(cordova.platformId == "ios") {
+    document.querySelector('html').dataset['basepath'] = "/ios_asset/www/index.html";
+  }
 
-var fsm = new Fsm();
+  var request = new XMLHttpRequest();
+  request.open('GET', 'http://192.168.1.99/mobile_cordova/', true);
+
+  request.onload = function() {
+    if (request.status >= 200 && request.status < 400) {
+      var resp = request.responseText;  
+      var parser = new DOMParser();
+      var xmlDoc = parser.parseFromString(resp,"text/html");
+      var remoteScripts = xmlDoc.querySelectorAll("script");
+      var remoteLinkCss = xmlDoc.querySelectorAll("link");
+
+      var attrs = ["rel", "href", "text", "as" ];
+
+      for(var i = 0 in remoteLinkCss){ 
+        var linkCss = document.createElement('link');
+        for (var j = 0 ; j < attrs.length; j++) {
+          if (remoteLinkCss[i][attrs[j]] !== undefined)
+           linkCss[attrs[j]] = remoteLinkCss[i][attrs[j]];
+        }
+
+        document.head.appendChild(linkCss);
+      }
+
+      for(var i = 0 in remoteScripts){
+        if(remoteScripts[i].type !== undefined) {
+          var script = document.createElement('script');
+
+          script.type = 'text/javascript';
+
+          if (remoteScripts[i].src !== undefined)
+            script.src = remoteScripts[i].src;
+
+          if (remoteScripts[i].text !== undefined)
+            script.text = remoteScripts[i].text
+            
+          document.body.appendChild(script);
+        }
+      }
+
+
+      //document.write("<script src='cordova.js'><\/script>");
+    } else {}
+  };
+
+  request.onerror = function() {};
+
+  request.send();
+
+});
 
