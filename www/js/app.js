@@ -2,13 +2,16 @@
 
 var mobileApp = (function() {
   var splashTime = 3000; // Время показа сплэш экрана
-  var serverUrl = 'http://192.168.1.99/mobile_cordova';
+  var hostName = "http://192.168.1.99";
+  var appUrl = 'http://192.168.1.99/mobile_cordova';
   var appStates = {
     starting: 1,
     work: 2,
     error: 3,
-  }
-  
+  };
+
+  var serverSideData = {};
+
   var splash = document.querySelector("#splash-screen");
   var errorBlock = document.querySelector("#error-screen");
   var errorMsg = document.querySelector("#error-msg");
@@ -96,7 +99,7 @@ var mobileApp = (function() {
 
       var request = new XMLHttpRequest();
   
-      request.open('GET', serverUrl, true);
+      request.open('GET', appUrl, true);
     
       request.onload = function() {
         if (request.status >= 200 && request.status < 400) {
@@ -105,9 +108,17 @@ var mobileApp = (function() {
           var xmlDoc = parser.parseFromString(resp,"text/html");
           var remoteScripts = xmlDoc.querySelectorAll("script");
           var remoteLinkCss = xmlDoc.querySelectorAll("link");
-    
+          var serverDataElement = xmlDoc.querySelector('[data-server]');
           var attrs = ["rel", "href", "text", "as" ];
     
+          if (serverDataElement !== null) {
+            try {
+              serverSideData = JSON.stringify(serverDataElement.dataset.server);
+            } catch(e) {
+              console.log(e);
+            }            
+          }
+
           for(var i = 0 in remoteLinkCss){ 
             var linkCss = document.createElement('link');
             for (var j = 0 ; j < attrs.length; j++) {
@@ -133,20 +144,41 @@ var mobileApp = (function() {
               document.body.appendChild(script);
             }
           }
-          if (params != undefined && isFunction(params.done))
+          if (params !== undefined && isFunction(params.done))
             params.done(request);
         } else {
-          if (params != undefined && isFunction(params.error))
+          if (params !== undefined && isFunction(params.error))
             params.error(request);
         }
       };
     
       request.onerror = function() {
-        if (params != undefined && isFunction(params.error))
+        if (params !== undefined && isFunction(params.error))
           params.error(request);
       };
     
       request.send();
+
+      request.onreadystatechange = function() {
+        if(this.readyState == this.HEADERS_RECEIVED) {
+      
+          // Get the raw header string
+          var headers = request.getAllResponseHeaders();
+      
+          // Convert the header string into an array
+          // of individual headers
+          var arr = headers.trim().split(/[\r\n]+/);
+      
+          // Create a map of header names to values
+          var headerMap = {};
+          arr.forEach(function (line) {
+            var parts = line.split(': ');
+            var header = parts.shift();
+            var value = parts.join(': ');
+            headerMap[header] = value;
+          });
+        }
+      }
   };
   /**
    * 
@@ -201,13 +233,14 @@ var mobileApp = (function() {
     loadApp: loadApp,
     reloadAppClick: reloadAppClick,
     splashTime: splashTime,
-    serverUrl: serverUrl,
+    hostName: hostName,
     appStates: appStates,
     currentState: currentState,
     isOffline: isOffline,
     ajaxLoader: ajaxLoader,
     splashScreen: splashScreen,
     errorScreen: errorScreen,
+    serverSideData: serverSideData,
   }
 })();
 
