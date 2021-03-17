@@ -1,3 +1,5 @@
+
+
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -16,249 +18,281 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+
  * {
-    -webkit-tap-highlight-color: rgba(0,0,0,0); /* make transparent link selection, adjust last value opacity 0 to 1.0 */
+	-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+	/* make transparent link selection, adjust last value opacity 0 to 1.0 */
 }
 
 body {
-    -webkit-touch-callout: none;                /* prevent callout to copy image, etc when tap to hold */
-    -webkit-text-size-adjust: none;             /* prevent webkit from resizing text to fit */
-    -webkit-user-select: none;                  /* prevent copy paste, to allow, change 'none' to 'text' */
-    background-color: white;
-    font-family: 'HelveticaNeue-Light', 'HelveticaNeue', Helvetica, Arial, sans-serif;
-    font-size: 14px;
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    height: 100%;
+	-webkit-touch-callout: none;
+	/* prevent callout to copy image, etc when tap to hold */
+	-webkit-text-size-adjust: none;
+	/* prevent webkit from resizing text to fit */
+	-webkit-user-select: none;
+	/* prevent copy paste, to allow, change 'none' to 'text' */
+	background-color: white;
+	font-family: 'HelveticaNeue-Light', 'HelveticaNeue', Helvetica, Arial, sans-serif;
+	font-size: 14px;
+	margin: 0;
+	padding: 0;
+	width: 100%;
+	height: 100%;
 }
+
 
 /* Portrait layout (default) */
+
 .app {
-    background:url(../img/logo.png) no-repeat center top; /* 128px x 128px */
-    position: absolute;         /* position in the center of the screen */
-    left: 50%;
-    top: 50%;
-    height: 180px;              /* text area height */
-    width: 250px;               /* text area width */
-    text-align: center;
-    padding: 128px 0 0 0;       /* image height is 128px */
-    margin: -154px 0 0 -124px;  /* offset vertical: half of image height and text area height */
-                                /* offset horizontal: half of text area width */
+	background: url(../img/logo.png) no-repeat center top;
+	/* 128px x 128px */
+	position: absolute;
+	/* position in the center of the screen */
+	left: 50%;
+	top: 50%;
+	height: 180px;
+	/* text area height */
+	width: 250px;
+	/* text area width */
+	text-align: center;
+	padding: 128px 0 0 0;
+	/* image height is 128px */
+	margin: -154px 0 0 -124px;
+	/* offset vertical: half of image height and text area height */
+	/* offset horizontal: half of text area width */
 }
+
 
 /* Landscape layout (with min-width) */
+
 @media screen and (min-aspect-ratio: 1/1) and (min-width: 400px) {
-  .app {
-        background-position: left center;
-        padding: 0px 0px 0px  128px;  /* give space to image on the left */
-        margin:-90px 0px 0px -189px;  /* offset vertical: half of text height */
-                                     /* offset horizontal: half of image width and text area width */
-  }
+	.app {
+		background-position: left center;
+		padding: 0px 0px 0px 128px;
+		/* give space to image on the left */
+		margin: -90px 0px 0px -189px;
+		/* offset vertical: half of text height */
+		/* offset horizontal: half of image width and text area width */
+	}
 }
 
-.btn {
-    border: 1px solid #888;
-    border-radius: 5px;
-    padding: 6px 8px;
-    background: #fff;
-    color: #000;
-    transition: all .4s ease;
-}
-
-.btn:hover, .btn:active {
-    background: #ddd;
-    color: #000;
-}
-
-.event {
-    border-radius: 4px;
-    -webkit-border-radius: 4px;
-    font-size: 14px;
-    margin: 0px 30px;
-    padding: 2px 0px;
-    display: none; /* hide by default */
-}
-.event-default {
-    display: block;
-}
-
-@keyframes fade {
-    from { opacity: 1.0; }
-    50% { opacity: 0.25; }
-    to { opacity: 1.0; }
-}
-
-@-webkit-keyframes fade {
-    from { opacity: 1.0; }
-    50% { opacity: 0.25; }
-    to { opacity: 1.0; }
-}
-
-.blink {
-    animation:fade 3000ms infinite;
-    -webkit-animation:fade 3000ms infinite;
-}
-
-
-*, *:before, *:after {
+*,
+*:before,
+*:after {
 	box-sizing: border-box;
 	margin: 0;
 	padding: 0;
 }
+
 :root {
 	--dur: 2s;
 }
 
-.icon {
-	animation: darken var(--dur) linear infinite alternate;
-	background-color: #000;
-	border-radius: 16px;
-	margin: auto;
-	overflow: hidden;
-	width: 256px;
-	height: 256px;
+@-webkit-keyframes rotate-1 {
+	to {
+		transform: rotate(135deg);
+	}
 }
-.parts {
-	animation: turn var(--dur) linear infinite alternate;
+
+@keyframes rotate-1 {
+	to {
+		transform: rotate(135deg);
+	}
+}
+
+@-webkit-keyframes rotate-2 {
+	to {
+		transform: rotate(225deg);
+	}
+}
+
+@keyframes rotate-2 {
+	to {
+		transform: rotate(225deg);
+	}
+}
+
+@-webkit-keyframes rotate-3 {
+	to {
+		transform: rotate(315deg);
+	}
+}
+
+@keyframes rotate-3 {
+	to {
+		transform: rotate(315deg);
+	}
+}
+#splash-screen {
+	align-items: center;
+	justify-content: center;
+    width: 100%;
+    height: 100%;
+	margin: 0;
+    position: fixed;
+    z-index: 100000;
+    background-color: #fff;
+}
+
+#error-screen {
+	position: fixed;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+    width: 100%;
+    height: 100%;
+	margin: 0;
+    position: fixed;
+    z-index: 100000;
+    background-color: #fff;
+}
+
+#error-screen .error-text {
+	text-align: center;
+	font-size: 28px;
+}
+
+#error-screen .error-img {
+	text-align: center;
+}
+
+.mobile-app.logo {
+	width: 200px;
+	height: 200px;
 	position: relative;
-	width: 100%;
-	height: 100%;
-	transform: rotate(90deg);
 }
-.parts > * {
+
+.mobile-app.logo svg,
+.mobile-app.logo div {
+	width: 200px;
+	height: 200px;
 	position: absolute;
 }
-.a, .b, .c {
-	width: 188px;
-	height: 36px;
-	will-change: transform;
+
+.mobile-app.logo svg {
+	fill: #fff;
 }
-.a, .c {
-	background-color: #be0004;
+
+.mobile-app.logo div {
+	width: 160px;
+	height: 160px;
+	margin: 20px;
+	border-radius: 20%;
+	transform: rotate(45deg);
+	mix-blend-mode: multiply;
+	-webkit-animation: 2s cubic-bezier(0.66, -0.7, 0.27, 1.6) infinite;
+	animation: 2s cubic-bezier(0.66, -0.7, 0.27, 1.6) infinite;
 }
-.b, .d {
-	z-index: 1;
+
+.mobile-app.logo div:nth-child(1) {
+	background-color: #29ffff;
+	-webkit-animation-name: rotate-1;
+	animation-name: rotate-1;
 }
-.a {
-	animation: a var(--dur) linear infinite alternate;
-	transform: translate(34px,144px) skewY(0);
+
+.mobile-app.logo div:nth-child(2) {
+	background-color: #ff65ff;
+	-webkit-animation-name: rotate-2;
+	animation-name: rotate-2;
 }
-.b {
-	animation: b var(--dur) linear infinite alternate;
-	background-color: #f50006;
-	box-shadow: 0 0 8px 0 #000;
-	transform: translate(34px,111px) skewY(-19deg);
+
+.mobile-app.logo div:nth-child(3) {
+	background-color: #ffc;
+	-webkit-animation-name: rotate-3;
+	animation-name: rotate-3;
 }
-.b-inner {
-	animation: bInner var(--dur) linear infinite alternate;
-	background-image: linear-gradient(#000,transparent 10px);
-	background-position: 0 -10px;
-	background-repeat: no-repeat;
-	border-radius: 0 8px 0 0;
-	opacity: 0;
+
+.mobile-app.button-row {
+	text-align: center;
+}
+
+.mobile-app.btn {
+    font-style: 18px;
+	position: relative;
+	display: block;
+	margin: 30px auto;
+	padding: 16px;
+	overflow: hidden;
+	border-width: 0;
+	outline: none;
+	border-radius: 2px;
+	box-shadow: 0 1px 4px rgba(0, 0, 0, .6);
+	background-color: #2ecc71;
+	color: #ecf0f1;
+	transition: background-color .3s;
+}
+
+.mobile-app.btn:hover,
+.mobile-app.btn:focus {
+	background-color: #27ae60;
+}
+
+.mobile-app.btn>* {
+	position: relative;
+}
+
+.mobile-app.btn span {
+	display: block;
+	padding: 12px 24px;
+}
+
+.mobile-app.btn:before {
+	content: "";
 	position: absolute;
-	top: 100%;
-	right: -6px;
-	width: 94px;
-	height: 30px;
-	transform: scale(1,0) skewX(-90deg);
-	transform-origin: 100% 0;
+	top: 50%;
+	left: 50%;
+	display: block;
+	width: 0;
+	padding-top: 0;
+	border-radius: 100%;
+	background-color: rgba(236, 240, 241, .3);
+	-webkit-transform: translate(-50%, -50%);
+	-moz-transform: translate(-50%, -50%);
+	-ms-transform: translate(-50%, -50%);
+	-o-transform: translate(-50%, -50%);
+	transform: translate(-50%, -50%);
 }
-.c {
-	animation: c var(--dur) linear infinite alternate;
-	transform: translate(34px,78px) skewY(-0);
+
+.mobile-app.btn:active:before {
+	width: 120%;
+	padding-top: 120%;
+	transition: width .2s ease-out, padding-top .2s ease-out;
 }
-.d {
-	animation: d var(--dur) linear infinite alternate;
-	background-color: #000;
-	border-radius: 50% 0 0 50%;
-	top: 12%;
-	right: 0;
-	width: 37px;
-	height: 76%;
-}
-@keyframes a {
-	from, 25% {
-		background-color: #be0004;
-		border-radius: 0;
-		transform: translate(34px,144px) skewY(0);
-		width: 188px;
-		height: 36px;
-	}
-	75%, to {
-		background-color: #ff9228;
-		border-radius: 4px;
-		transform: translate(54px,58px) skewY(-16deg);
-		width: 148px;
-		height: 54px;
-	}
-}
-@keyframes b {
-	from, 25% {
-		background-color: #f50006;
-		border-radius: 0;
-		box-shadow: 0 0 8px 0 #000;
-		transform: translate(34px,111px) skewY(-19deg);
-		width: 188px;
-		height: 36px;
-	}
-	75%, to {
-		background-color: #ff9228;
-		border-radius: 4px;
-		box-shadow: none;
-		transform: translate(54px,102px) skewY(16deg);
-		width: 148px;
-		height: 54px;
-	}
-}
-@keyframes bInner {
-	from, 25% {
-		background-position: 0 -10px;
-		opacity: 0;
-		transform: scale(2.9,0) skewX(-90deg);
-	}
-	75%, to {
-		background-position: 0 0;
-		opacity: 0.2;
-		transform: scale(1,1) skewX(-61deg);
-	}
-}
-@keyframes c {
-	from, 25% {
-		background-color: #be0004;
-		border-radius: 0;
-		transform: translate(34px,78px) skewY(0);
-		width: 188px;
-		height: 36px;
-	}
-	75%, to {
-		background-color: #ff9228;
-		border-radius: 4px;
-		transform: translate(54px,148px) skewY(-16deg);
-		width: 148px;
-		height: 54px;
-	}
-}
-@keyframes d {
-	from, 25% {
-		background-color: #000;
-	}
-	75%, to {
-		background-color: #4b4b4b;
-	}
-}
-@keyframes darken {
-	from, 25% {
-		background-color: #000;
-		border-radius: 0;
-	}
-	75%, to {
-		background-color: #4b4b4b;
-		border-radius: 16px;
-	}
-}
-@keyframes turn {
-	from, 25% {transform: rotate(90deg);}
-	75%, to {transform: rotate(0);}
-}
+
+.mobile-app.lds-ring {
+    display: inline-block;
+    position: fixed;
+    width: 80px;
+    height: 80px;
+    left: calc(50% - 40px);
+    top: calc(50% - 40px);
+    z-index: 100002;
+  }
+  .mobile-app.lds-ring div {
+    box-sizing: border-box;
+    display: block;
+    position: absolute;
+    width: 64px;
+    height: 64px;
+    margin: 8px;
+    border: 8px solid #4287f5;
+    border-radius: 50%;
+    animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) 
+  }
+  .mobile-app.lds-ring div:nth-child(1) {
+    animation-delay: -0.45s;
+  }
+  .mobile-app.lds-ring div:nth-child(2) {
+    animation-delay: -0.3s;
+  }
+  .mobile-app.lds-ring div:nth-child(3) {
+    animation-delay: -0.15s;
+  }
+  @keyframes lds-ring {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }

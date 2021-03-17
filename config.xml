@@ -4,8 +4,6 @@ version="1.0.0"
  xmlns="http://www.w3.org/ns/widgets" 
  xmlns:cdv="http://cordova.apache.org/ns/1.0"
  xmlns:android="http://schemas.android.com/apk/res/android" >
-
-
     <name>HelloWorld</name>
     <description>
         A sample Apache Cordova application that responds to the deviceready event.
@@ -15,7 +13,6 @@ version="1.0.0"
     </author>
     <content src="index.html" />
     <allow-navigation href="192.168.1.99" />
-    <preference  name="CRIInjectFirstFiles"  value = "www/js/app.js" />
     <access origin="*" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
@@ -27,6 +24,9 @@ version="1.0.0"
         <allow-intent href="market:*" />
         <edit-config file="app/src/main/AndroidManifest.xml" mode="merge" target="/manifest/application">
             <application android:usesCleartextTraffic="true" />
+        </edit-config>
+        <edit-config file="app/src/main/AndroidManifest.xml" target="/manifest/application/activity[@android:label='@string/activity_name']" mode="merge">
+            <activity android:theme="@android:style/Theme.Translucent"></activity>
         </edit-config>
     </platform>
     <platform name="ios">
